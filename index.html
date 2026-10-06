@@ -3,38 +3,77 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ишеним</title>
+<title>Базар</title>
 <style>
-  body{margin:0;font-family:sans-serif;background:#f3f7f9;color:#14202b}
-  header{background:#0e6e7e;color:#fff;padding:20px 16px}
-  header h1{margin:0;font-size:24px}
-  header p{margin:4px 0 12px;opacity:.9}
-  input{width:100%;box-sizing:border-box;padding:12px;border:none;border-radius:10px;font-size:16px}
-  main{padding:16px}
-  h2{font-size:18px}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .cat{background:#fff;border-radius:14px;padding:18px 8px;text-align:center;font-size:16px;font-weight:600}
-  .cat span{display:block;font-size:30px}
+*{box-sizing:border-box}
+body{margin:0;font-family:sans-serif;background:#f4f5f7;color:#1b2a41;padding-bottom:70px}
+header{background:#1b2a41;padding:12px 14px;position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.logo{width:36px;height:36px;border-radius:10px;background:#ff6b1a;color:#fff;font-weight:800;font-size:22px;display:grid;place-items:center}
+.top b{color:#fff;font-size:22px}
+input{width:100%;padding:12px 14px;border:none;border-radius:10px;font-size:16px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:12px 14px}
+.cat{flex:none;padding:8px 14px;border-radius:999px;background:#fff;border:1.5px solid #dde1e7;font-size:15px}
+.cat.on{background:#ff6b1a;border-color:#ff6b1a;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px}
+.card{background:#fff;border-radius:14px;overflow:hidden}
+.img{height:120px;display:grid;place-items:center;font-size:56px}
+.info{padding:10px}
+.price{font-weight:800;font-size:17px}
+.name{font-size:14px;margin:2px 0}
+.city{font-size:12px;color:#6b7785}
+.safe{display:inline-block;margin-top:6px;font-size:11px;background:#e5f6ec;color:#17794a;padding:2px 8px;border-radius:999px}
+.empty{grid-column:1/3;text-align:center;color:#6b7785;padding:40px 0}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #dde1e7;padding:8px 14px}
+nav button{width:100%;padding:13px;border:none;border-radius:12px;background:#ff6b1a;color:#fff;font-size:17px;font-weight:700}
 </style>
 </head>
 <body>
 <header>
-  <h1>Ишеним</h1>
-  <p>Покупайте и продавайте безопасно</p>
-  <input type="search" placeholder="Что вы ищете?">
+  <div class="top"><div class="logo">Б</div><b>Базар</b></div>
+  <input id="q" type="search" placeholder="Поиск по объявлениям">
 </header>
-<main>
-  <h2>Категории</h2>
-  <div class="grid">
-    <div class="cat"><span>📱</span>Телефоны</div>
-    <div class="cat"><span>🚗</span>Авто</div>
-    <div class="cat"><span>💻</span>Электроника</div>
-    <div class="cat"><span>👕</span>Одежда</div>
-    <div class="cat"><span>🛋️</span>Для дома</div>
-    <div class="cat"><span>🧸</span>Детям</div>
-    <div class="cat"><span>🔧</span>Инструменты</div>
-    <div class="cat"><span>📦</span>Другое</div>
-  </div>
-</main>
+<div class="cats" id="cats"></div>
+<div class="grid" id="grid"></div>
+<nav><button onclick="alert('Скоро: подача объявлений')">+ Подать объявление</button></nav>
+
+<script>
+var cats=["Все","Телефоны","Авто","Электроника","Одежда","Для дома","Детям","Инструменты"];
+var items=[
+ {n:"iPhone 13, 128 ГБ",p:48000,c:"Телефоны",e:"📱",bg:"#dbe7ff",city:"Бишкек",safe:1},
+ {n:"Samsung Galaxy S23",p:52000,c:"Телефоны",e:"📱",bg:"#e3dbff",city:"Бишкек",safe:1},
+ {n:"Redmi Note 12",p:17500,c:"Телефоны",e:"📱",bg:"#ffe7d1",city:"Ош",safe:0},
+ {n:"Toyota Camry 2015",p:1450000,c:"Авто",e:"🚗",bg:"#ffd9d4",city:"Бишкек",safe:1},
+ {n:"Honda Fit 2012",p:620000,c:"Авто",e:"🚙",bg:"#d4f0ff",city:"Ош",safe:1},
+ {n:"Ноутбук Lenovo",p:32000,c:"Электроника",e:"💻",bg:"#dff5e6",city:"Бишкек",safe:1},
+ {n:"Наушники Sony",p:6500,c:"Электроника",e:"🎧",bg:"#fff1c9",city:"Каракол",safe:0},
+ {n:"Куртка зимняя",p:3200,c:"Одежда",e:"🧥",bg:"#ffe0ee",city:"Бишкек",safe:0},
+ {n:"Кроссовки Nike",p:4800,c:"Одежда",e:"👟",bg:"#e0e8ff",city:"Талас",safe:0},
+ {n:"Диван угловой",p:21000,c:"Для дома",e:"🛋️",bg:"#f1e3d3",city:"Бишкек",safe:1},
+ {n:"Детская коляска",p:7500,c:"Детям",e:"🧸",bg:"#ffeccf",city:"Джалал-Абад",safe:0},
+ {n:"Шуруповёрт Bosch",p:3900,c:"Инструменты",e:"🔧",bg:"#e4e9ee",city:"Бишкек",safe:0},
+ {n:"Скотч упаковочный",p:60,c:"Для дома",e:"📦",bg:"#f5e6c8",city:"Бишкек",safe:0}
+];
+var cur="Все";
+function show(){
+  var q=document.getElementById("q").value.toLowerCase();
+  var list=items.filter(function(i){
+    return (cur=="Все"||i.c==cur)&&i.n.toLowerCase().indexOf(q)>-1;
+  });
+  var h="";
+  list.forEach(function(i){
+    h+='<div class="card"><div class="img" style="background:'+i.bg+'">'+i.e+'</div><div class="info"><div class="price">'+i.p.toLocaleString("ru-RU")+' сом</div><div class="name">'+i.n+'</div><div class="city">'+i.city+'</div>'+(i.safe?'<span class="safe">🛡 Безопасная сделка</span>':'')+'</div></div>';
+  });
+  document.getElementById("grid").innerHTML=h||'<div class="empty">Ничего не найдено</div>';
+}
+function drawCats(){
+  var h="";
+  cats.forEach(function(c){h+='<button class="cat'+(c==cur?' on':'')+'" onclick="pick(\''+c+'\')">'+c+'</button>';});
+  document.getElementById("cats").innerHTML=h;
+}
+function pick(c){cur=c;drawCats();show();}
+document.getElementById("q").oninput=show;
+drawCats();show();
+</script>
 </body>
 </html>
