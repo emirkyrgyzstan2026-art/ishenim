@@ -2,65 +2,66 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ишенем</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:sans-serif;background:#f4f5f7;color:#1b2a41;padding-bottom:80px}
 button{font:inherit;cursor:pointer}
 input,select,textarea{font:inherit;width:100%;padding:12px;border:1.5px solid #dde1e7;border-radius:10px;background:#fff;margin-bottom:10px}
+label{font-size:14px;font-weight:600}
 header{background:#1b2a41;padding:12px 14px}
 .top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.logo{width:36px;height:36px;border-radius:10px;background:#ff6b1a;color:#fff;font-weight:800;font-size:22px;display:grid;place-items:center}
+.logo{width:36px;height:36px;border-radius:10px;background:#ff6b1a;color:#fff;font-weight:800;font-size:22px;text-align:center;line-height:36px}
 .top b{color:#fff;font-size:22px}
 header input{margin:0;border:none}
 .cats{display:flex;gap:8px;overflow-x:auto;padding:12px 14px}
 .cat{flex:none;padding:8px 14px;border-radius:999px;background:#fff;border:1.5px solid #dde1e7}
 .cat.on{background:#ff6b1a;border-color:#ff6b1a;color:#fff}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px}
-.card{background:#fff;border-radius:14px;overflow:hidden;cursor:pointer}
-.img{height:110px;display:grid;place-items:center;font-size:52px}
+.card{background:#fff;border-radius:14px;overflow:hidden}
+.img{height:110px;text-align:center;line-height:110px;font-size:52px}
 .info{padding:10px}
 .price{font-weight:800;font-size:18px}
 .name{font-size:14px;margin:2px 0}
 .city{font-size:12px;color:#6b7785}
 .safe{display:inline-block;margin:6px 0;font-size:12px;background:#e5f6ec;color:#17794a;padding:3px 10px;border-radius:999px}
 .empty{grid-column:1/3;text-align:center;color:#6b7785;padding:40px 14px}
-.bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#1b2a41;color:#fff}
-.bar small{opacity:.7;margin-left:auto;font-size:12px}
+.bar{display:flex;align-items:center;gap:10px;padding:14px;background:#1b2a41;color:#fff}
 .bk{background:none;border:none;color:#fff;font-size:22px;padding:0 6px}
-.big{height:200px;display:grid;place-items:center;font-size:90px}
+.big{height:200px;text-align:center;line-height:200px;font-size:90px}
 .pad{padding:14px}
 .btn{display:block;width:100%;padding:14px;border:none;border-radius:12px;background:#ff6b1a;color:#fff;font-size:16px;font-weight:700;margin-top:10px}
 .btn.alt{background:#fff;color:#1b2a41;border:1.5px solid #dde1e7}
 .btn.dark{background:#1b2a41}
 .btn.red{background:#fff;color:#c0392b;border:1.5px solid #f1c6c1;padding:8px;font-size:14px;margin:0;width:auto}
-.row{display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;cursor:pointer}
+.row{display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:12px;margin-bottom:10px}
 .row .e{font-size:30px}
-.row div{flex:1;min-width:0}
+.row .t{flex:1;min-width:0}
 .row small{color:#6b7785;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.msgs{display:grid;gap:8px;padding:14px 14px 130px;align-content:start}
-.m{max-width:80%;padding:9px 13px;border-radius:14px;background:#fff}
-.m.me{justify-self:end;background:#ff6b1a;color:#fff}
-.send{position:fixed;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;padding:8px 14px;background:#f4f5f7}
+.msgs{padding:14px 14px 140px}
+.m{max-width:80%;padding:9px 13px;border-radius:14px;background:#fff;margin-bottom:8px}
+.m.me{margin-left:auto;background:#ff6b1a;color:#fff}
+.send{position:fixed;left:0;right:0;bottom:62px;display:flex;gap:8px;padding:8px 14px;background:#f4f5f7}
 .send input{margin:0}
 .send button{border:none;background:#ff6b1a;color:#fff;border-radius:10px;padding:0 18px;font-size:18px}
-.ava{width:70px;height:70px;border-radius:50%;background:#ff6b1a;color:#fff;font-size:32px;font-weight:800;display:grid;place-items:center;margin:0 auto 10px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
-.st{background:#fff;border-radius:12px;padding:12px;text-align:center}
+.ava{width:70px;height:70px;border-radius:50%;background:#ff6b1a;color:#fff;font-size:32px;font-weight:800;text-align:center;line-height:70px;margin:0 auto 10px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
+.st{background:#fff;border-radius:12px;padding:12px;text-align:center;font-size:12px}
 .st b{display:block;font-size:22px}
 h3{margin:18px 0 8px}
-nav{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1px solid #dde1e7;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px));z-index:10}
-nav button{background:none;border:none;padding:6px 0;font-size:11px;color:#6b7785;display:grid;justify-items:center;gap:2px}
-nav button span{font-size:22px}
+nav{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1px solid #dde1e7;padding:4px;z-index:10}
+nav button{background:none;border:none;padding:6px 0;font-size:11px;color:#6b7785}
+nav button span{display:block;font-size:22px}
 nav button.on{color:#ff6b1a;font-weight:700}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <nav id="nav"></nav>
-
 <script>
+window.onerror=function(m,s,l){document.getElementById("app").innerHTML='<pre style="padding:14px;white-space:pre-wrap">Ошибка: '+m+' (строка '+l+')</pre>'};
+
 var CATS=["Все","Телефоны","Авто","Электроника","Одежда","Для дома","Детям","Инструменты"];
 var EM={"Телефоны":"📱","Авто":"🚗","Электроника":"💻","Одежда":"👕","Для дома":"🛋️","Детям":"🧸","Инструменты":"🔧"};
 var CITIES=["Бишкек","Ош","Каракол","Джалал-Абад","Нарын","Талас","Баткен"];
@@ -78,113 +79,203 @@ var items=[
  {id:11,n:"Скотч упаковочный",p:60,c:"Для дома",e:"📦",bg:"#f5e6c8",city:"Бишкек",s:"Магазин Тундук",safe:0,d:"Прозрачный, 48 мм, 100 метров."}
 ];
 var mine=[],favs=[],chats={},me={name:"",phone:""};
-var cur="Все",tab="home",back="home",cid=0;
+var cur="Все",tab="home",prev="home",cid=0,query="";
 var app=document.getElementById("app");
 
-try{var sv=JSON.parse(localStorage.getItem("ishenem")||"null");if(sv){mine=sv.mine||[];favs=sv.favs||[];chats=sv.chats||{};me=sv.me||me}}catch(e){}
-function save(){try{localStorage.setItem("ishenem",JSON.stringify({mine:mine,favs:favs,chats:chats,me:me}))}catch(e){}}
-function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function fmt(n){return n.toLocaleString("ru-RU")+" сом"}
-function all(){return mine.concat(items)}
-function find(id){return all().filter(function(i){return i.id==id})[0]}
-function v(id){return document.getElementById(id).value}
+try{
+  var sv=JSON.parse(localStorage.getItem("ishenem")||"null");
+  if(sv){mine=sv.mine||[];favs=sv.favs||[];chats=sv.chats||{};me=sv.me||me;}
+}catch(e){}
+function save(){try{localStorage.setItem("ishenem",JSON.stringify({mine:mine,favs:favs,chats:chats,me:me}));}catch(e){}}
+function esc(s){
+  return String(s).split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split('"').join("&quot;");
+}
+function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ")+" сом";}
+function allItems(){return mine.concat(items);}
+function getItem(id){
+  var a=allItems();
+  for(var k=0;k<a.length;k++){if(String(a[k].id)===String(id))return a[k];}
+  return null;
+}
+function val(id){return document.getElementById(id).value;}
 
 function card(i){
-  return '<div class="card" onclick="openItem('+i.id+')"><div class="img" style="background:'+i.bg+'">'+i.e+'</div><div class="info"><div class="price">'+fmt(i.p)+'</div><div class="name">'+esc(i.n)+'</div><div class="city">'+esc(i.city)+(favs.indexOf(i.id)>-1?' · ❤️':'')+'</div>'+(i.safe?'<span class="safe">🛡 Безопасная сделка</span>':'')+'</div></div>';
+  var h='<div class="card" data-act="item" data-id="'+i.id+'">';
+  h+='<div class="img" style="background:'+i.bg+'">'+i.e+'</div><div class="info">';
+  h+='<div class="price">'+fmt(i.p)+'</div><div class="name">'+esc(i.n)+'</div>';
+  h+='<div class="city">'+esc(i.city)+(favs.indexOf(i.id)>-1?' · ❤️':'')+'</div>';
+  if(i.safe)h+='<span class="safe">🛡 Безопасная сделка</span>';
+  return h+'</div></div>';
 }
 
 function drawNav(){
   var t=[["home","🏠","Главная"],["favs","❤️","Избранное"],["post","➕","Подать"],["chats","💬","Чаты"],["cab","👤","Кабинет"]];
-  var active=tab=="detail"?back:(tab=="chat"?"chats":tab);
-  document.getElementById("nav").innerHTML=t.map(function(x){
-    return '<button class="'+(x[0]==active?'on':'')+'" onclick="go(\''+x[0]+'\')"><span>'+x[1]+'</span>'+x[2]+'</button>';
-  }).join("");
+  var active=tab;
+  if(tab==="detail")active=prev;
+  if(tab==="chat")active="chats";
+  var h="";
+  for(var k=0;k<t.length;k++){
+    h+='<button class="'+(t[k][0]===active?"on":"")+'" data-act="go" data-id="'+t[k][0]+'"><span>'+t[k][1]+'</span>'+t[k][2]+'</button>';
+  }
+  document.getElementById("nav").innerHTML=h;
 }
-function go(t){tab=t;render();window.scrollTo(0,0)}
+function go(t){tab=t;render();window.scrollTo(0,0);}
 function render(){
   drawNav();
-  if(tab=="home")renderHome();
-  else if(tab=="favs")renderFavs();
-  else if(tab=="post")renderPost();
-  else if(tab=="chats")renderChats();
-  else if(tab=="cab")renderCab();
-  else if(tab=="detail")renderDetail();
-  else if(tab=="chat")renderChat();
+  if(tab==="home")renderHome();
+  else if(tab==="favs")renderFavs();
+  else if(tab==="post")renderPost();
+  else if(tab==="chats")renderChats();
+  else if(tab==="cab")renderCab();
+  else if(tab==="detail")renderDetail();
+  else if(tab==="chat")renderChat();
 }
 
-/* Главная */
 function renderHome(){
-  app.innerHTML='<header><div class="top"><div class="logo">И</div><b>Ишенем</b></div><input id="q" type="search" placeholder="Поиск по объявлениям"></header><div class="cats">'+
-  CATS.map(function(c){return '<button class="cat'+(c==cur?' on':'')+'" onclick="pick(\''+c+'\')">'+c+'</button>'}).join("")+'</div><div class="grid" id="grid"></div>';
-  document.getElementById("q").oninput=showGrid;
+  var h='<header><div class="top"><div class="logo">И</div><b>Ишенем</b></div>';
+  h+='<input id="q" type="search" placeholder="Поиск по объявлениям" value="'+esc(query)+'"></header><div class="cats">';
+  for(var k=0;k<CATS.length;k++){
+    h+='<button class="cat'+(CATS[k]===cur?" on":"")+'" data-act="cat" data-id="'+CATS[k]+'">'+CATS[k]+'</button>';
+  }
+  h+='</div><div class="grid" id="grid"></div>';
+  app.innerHTML=h;
+  document.getElementById("q").oninput=function(){query=this.value;showGrid();};
   showGrid();
 }
-function pick(c){cur=c;renderHome()}
 function showGrid(){
-  var q=document.getElementById("q").value.toLowerCase();
-  var l=all().filter(function(i){return (cur=="Все"||i.c==cur)&&i.n.toLowerCase().indexOf(q)>-1});
-  document.getElementById("grid").innerHTML=l.length?l.map(card).join(""):'<div class="empty">Ничего не найдено</div>';
+  var q=query.toLowerCase(),out="",a=allItems();
+  for(var k=0;k<a.length;k++){
+    var i=a[k];
+    if((cur==="Все"||i.c===cur)&&i.n.toLowerCase().indexOf(q)>-1)out+=card(i);
+  }
+  document.getElementById("grid").innerHTML=out||'<div class="empty">Ничего не найдено</div>';
 }
 
-/* Избранное */
 function renderFavs(){
-  var l=all().filter(function(i){return favs.indexOf(i.id)>-1});
-  app.innerHTML='<div class="bar"><b>Избранное</b></div><div class="pad" style="padding:14px 0"><div class="grid">'+(l.length?l.map(card).join(""):'<div class="empty">Здесь будут объявления, которые вы отметили сердечком.</div>')+'</div></div>';
+  var out="",a=allItems();
+  for(var k=0;k<a.length;k++){if(favs.indexOf(a[k].id)>-1)out+=card(a[k]);}
+  app.innerHTML='<div class="bar"><b>Избранное</b></div><div style="padding-top:14px"><div class="grid">'+(out||'<div class="empty">Здесь будут объявления, которые вы отметили сердечком.</div>')+'</div></div>';
 }
 
-/* Карточка товара */
-function openItem(id){if(tab!="detail")back=tab;cid=id;tab="detail";render();window.scrollTo(0,0)}
 function renderDetail(){
-  var i=find(cid);if(!i){go("home");return}
+  var i=getItem(cid);
+  if(!i){go("home");return;}
   var fav=favs.indexOf(i.id)>-1;
-  app.innerHTML='<div class="bar"><button class="bk" onclick="go(back)">←</button><b>Объявление</b></div><div class="big" style="background:'+i.bg+'">'+i.e+'</div><div class="pad"><div class="price" style="font-size:26px">'+fmt(i.p)+'</div><h2 style="margin:4px 0">'+esc(i.n)+'</h2><div class="city">'+esc(i.city)+' · '+esc(i.c)+'</div>'+(i.safe?'<div class="safe">🛡 Безопасная сделка</div>':'')+'<p>'+esc(i.d||"Без описания.")+'</p><div>Продавец: <b>'+esc(i.s)+'</b></div><button class="btn" onclick="openChat('+i.id+')">💬 Написать продавцу</button><button class="btn alt" onclick="toggleFav('+i.id+')">'+(fav?'❤️ В избранном':'🤍 В избранное')+'</button>'+(i.safe?'<button class="btn dark" onclick="alert(\'Скоро: оплата через Элсом, Мбанк или Оптима. Деньги хранятся у платформы, пока вы не получите товар.\')">Купить безопасно</button>':'')+'</div>';
+  var h='<div class="bar"><button class="bk" data-act="go" data-id="'+prev+'">←</button><b>Объявление</b></div>';
+  h+='<div class="big" style="background:'+i.bg+'">'+i.e+'</div><div class="pad">';
+  h+='<div class="price" style="font-size:26px">'+fmt(i.p)+'</div><h2 style="margin:4px 0">'+esc(i.n)+'</h2>';
+  h+='<div class="city">'+esc(i.city)+' · '+esc(i.c)+'</div>';
+  if(i.safe)h+='<div class="safe">🛡 Безопасная сделка</div>';
+  h+='<p>'+esc(i.d||"Без описания.")+'</p><div>Продавец: <b>'+esc(i.s)+'</b></div>';
+  h+='<button class="btn" data-act="chat" data-id="'+i.id+'">💬 Написать продавцу</button>';
+  h+='<button class="btn alt" data-act="fav" data-id="'+i.id+'">'+(fav?"❤️ В избранном":"🤍 В избранное")+'</button>';
+  if(i.safe)h+='<button class="btn dark" data-act="buy">Купить безопасно</button>';
+  app.innerHTML=h+'</div>';
 }
-function toggleFav(id){var k=favs.indexOf(id);if(k>-1)favs.splice(k,1);else favs.push(id);save();renderDetail()}
 
-/* Подать объявление */
 function renderPost(){
-  app.innerHTML='<div class="bar"><b>Новое объявление</b></div><div class="pad"><label>Название</label><input id="pn" placeholder="Например, iPhone 12, 128 ГБ"><label>Категория</label><select id="pc">'+
-  CATS.slice(1).map(function(c){return '<option>'+c+'</option>'}).join("")+'</select><label>Цена, сом</label><input id="pp" type="number" placeholder="45000"><label>Город</label><select id="pcity">'+
-  CITIES.map(function(c){return '<option>'+c+'</option>'}).join("")+'</select><label>Описание</label><textarea id="pd" rows="4" placeholder="Состояние, комплект, причина продажи"></textarea><button class="btn" onclick="publish()">Опубликовать</button></div>';
+  var h='<div class="bar"><b>Новое объявление</b></div><div class="pad">';
+  h+='<label>Название</label><input id="pn" placeholder="Например, iPhone 12, 128 ГБ">';
+  h+='<label>Категория</label><select id="pc">';
+  for(var k=1;k<CATS.length;k++)h+='<option>'+CATS[k]+'</option>';
+  h+='</select><label>Цена, сом</label><input id="pp" type="number" placeholder="45000">';
+  h+='<label>Город</label><select id="pcity">';
+  for(var j=0;j<CITIES.length;j++)h+='<option>'+CITIES[j]+'</option>';
+  h+='</select><label>Описание</label><textarea id="pd" rows="4" placeholder="Состояние, комплект, причина продажи"></textarea>';
+  h+='<button class="btn" data-act="publish">Опубликовать</button></div>';
+  app.innerHTML=h;
 }
 function publish(){
-  var n=v("pn").trim(),p=parseInt(v("pp"),10);
-  if(!n){alert("Укажите название");return}
-  if(!p||p<=0){alert("Укажите цену");return}
-  var c=v("pc");
-  mine.unshift({id:Date.now(),n:n,p:p,c:c,e:EM[c]||"📦",bg:"#ffe9d9",city:v("pcity"),d:v("pd").trim(),s:me.name||"Вы",safe:0});
-  save();cur="Все";go("home");
+  var n=val("pn").trim(),p=parseInt(val("pp"),10);
+  if(!n){alert("Укажите название");return;}
+  if(!p||p<=0){alert("Укажите цену");return;}
+  var c=val("pc");
+  mine.unshift({id:Date.now(),n:n,p:p,c:c,e:EM[c]||"📦",bg:"#ffe9d9",city:val("pcity"),d:val("pd").trim(),s:me.name||"Вы",safe:0});
+  save();cur="Все";query="";go("home");
 }
 
-/* Чаты */
 function renderChats(){
-  var ids=Object.keys(chats).filter(function(k){return find(k)});
-  app.innerHTML='<div class="bar"><b>Чаты</b></div><div class="pad">'+(ids.length?ids.map(function(k){
-    var i=find(k),a=chats[k],last=a.length?a[a.length-1].t:"Нет сообщений";
-    return '<div class="row" onclick="openChat('+i.id+')"><div class="e" style="flex:none">'+i.e+'</div><div><b>'+esc(i.s)+'</b><small>'+esc(i.n)+'</small><small>'+esc(last)+'</small></div></div>';
-  }).join(""):'<div class="empty" style="grid-column:auto">Чатов пока нет. Откройте объявление и нажмите «Написать продавцу».</div>')+'</div>';
+  var keys=Object.keys(chats),h='<div class="bar"><b>Чаты</b></div><div class="pad">',n=0;
+  for(var k=0;k<keys.length;k++){
+    var i=getItem(keys[k]);
+    if(!i)continue;
+    n++;
+    var a=chats[keys[k]],last=a.length?a[a.length-1].t:"Нет сообщений";
+    h+='<div class="row" data-act="chat" data-id="'+i.id+'"><div class="e">'+i.e+'</div><div class="t"><b>'+esc(i.s)+'</b><small>'+esc(i.n)+'</small><small>'+esc(last)+'</small></div></div>';
+  }
+  if(!n)h+='<div style="text-align:center;color:#6b7785;padding:40px 0">Чатов пока нет. Откройте объявление и нажмите «Написать продавцу».</div>';
+  app.innerHTML=h+'</div>';
 }
-function openChat(id){if(!chats[id])chats[id]=[];save();cid=id;tab="chat";render();window.scrollTo(0,0)}
+function openChat(id){
+  var i=getItem(id);if(!i)return;
+  cid=i.id;
+  if(!chats[cid])chats[cid]=[];
+  save();tab="chat";render();window.scrollTo(0,0);
+}
 function renderChat(){
-  var i=find(cid);if(!i){go("chats");return}
-  app.innerHTML='<div class="bar"><button class="bk" onclick="go(\'chats\')">←</button><b>'+esc(i.s)+'</b><small>'+esc(i.n)+'</small></div><div class="msgs" id="msgs"></div><div class="send"><input id="mi" placeholder="Сообщение"><button onclick="sendMsg()">➤</button></div>';
-  document.getElementById("mi").onkeydown=function(e){if(e.key=="Enter")sendMsg()};
+  var i=getItem(cid);
+  if(!i){go("chats");return;}
+  app.innerHTML='<div class="bar"><button class="bk" data-act="go" data-id="chats">←</button><b>'+esc(i.s)+'</b></div><div class="msgs" id="msgs"></div><div class="send"><input id="mi" placeholder="Сообщение"><button data-act="send">➤</button></div>';
+  document.getElementById("mi").onkeydown=function(e){if(e.key==="Enter")sendMsg();};
   drawMsgs();
 }
 function drawMsgs(){
   var m=document.getElementById("msgs");if(!m)return;
-  var a=chats[cid]||[];
-  m.innerHTML=a.length?a.map(function(x){return '<div class="m'+(x.me?' me':'')+'">'+esc(x.t)+'</div>'}).join(""):'<div class="empty" style="grid-column:auto">Напишите первое сообщение</div>';
+  var a=chats[cid]||[],h="";
+  for(var k=0;k<a.length;k++)h+='<div class="m'+(a[k].me?" me":"")+'">'+esc(a[k].t)+'</div>';
+  m.innerHTML=h||'<div style="text-align:center;color:#6b7785">Напишите первое сообщение</div>';
   window.scrollTo(0,document.body.scrollHeight);
 }
 function sendMsg(){
-  var inp=document.getElementById("mi"),t=inp.value.trim();if(!t)return;
-  chats[cid].push({me:1,t:t});inp.value="";save();drawMsgs();
+  var inp=document.getElementById("mi"),t=inp.value.trim();
+  if(!t)return;
   var id=cid;
-  setTimeout(function(){chats[id].push({me:0,t:"Здравствуйте! Да, ещё продаётся."});save();if(tab=="chat"&&cid==id)drawMsgs()},1200);
+  chats[id].push({me:1,t:t});inp.value="";save();drawMsgs();
+  setTimeout(function(){
+    chats[id].push({me:0,t:"Здравствуйте! Да, ещё продаётся."});save();
+    if(tab==="chat"&&cid===id)drawMsgs();
+  },1200);
 }
 
-/* Кабинет */
 function renderCab(){
-  var l=mine;
-  app.innerHTML='<div class="bar"><b>Мой кабинет</b></div><div class="pad"><div class="ava">'
+  var h='<div class="bar"><b>Мой кабинет</b></div><div class="pad">';
+  h+='<div class="ava">'+esc((me.name||"Я").charAt(0).toUpperCase())+'</div>';
+  h+='<label>Имя</label><input id="cn" value="'+esc(me.name)+'" placeholder="Ваше имя">';
+  h+='<label>Телефон</label><input id="cp" type="tel" value="'+esc(me.phone)+'" placeholder="+996 ...">';
+  h+='<button class="btn" data-act="saveme">Сохранить</button>';
+  h+='<div class="stats"><div class="st"><b>'+mine.length+'</b>Мои объявления</div><div class="st"><b>'+favs.length+'</b>Избранное</div><div class="st"><b>'+Object.keys(chats).length+'</b>Чаты</div></div>';
+  h+='<div class="safe">🛡 Подтверждение номера и рейтинг: скоро</div><h3>Мои объявления</h3>';
+  if(!mine.length)h+='<div class="city">Вы пока ничего не подавали.</div>';
+  for(var k=0;k<mine.length;k++){
+    var i=mine[k];
+    h+='<div class="row" data-act="item" data-id="'+i.id+'"><div class="e">'+i.e+'</div><div class="t"><b>'+esc(i.n)+'</b><small>'+fmt(i.p)+'</small></div><button class="btn red" data-act="del" data-id="'+i.id+'">Удалить</button></div>';
+  }
+  app.innerHTML=h+'</div>';
+}
+
+document.addEventListener("click",function(e){
+  var el=e.target;
+  while(el&&el!==document&&!(el.getAttribute&&el.getAttribute("data-act")))el=el.parentNode;
+  if(!el||el===document)return;
+  var act=el.getAttribute("data-act"),id=el.getAttribute("data-id");
+  if(act==="go")go(id);
+  else if(act==="cat"){cur=id;renderHome();}
+  else if(act==="item"){if(tab!=="detail")prev=tab;cid=id;tab="detail";render();window.scrollTo(0,0);}
+  else if(act==="fav"){var n=Number(id),p=favs.indexOf(n);if(p>-1)favs.splice(p,1);else favs.push(n);save();renderDetail();}
+  else if(act==="chat")openChat(id);
+  else if(act==="send")sendMsg();
+  else if(act==="publish")publish();
+  else if(act==="saveme"){me.name=val("cn").trim();me.phone=val("cp").trim();save();alert("Сохранено");renderCab();}
+  else if(act==="del"){
+    if(confirm("Удалить объявление?")){
+      mine=mine.filter(function(x){return String(x.id)!==String(id);});
+      save();renderCab();
+    }
+  }
+  else if(act==="buy")alert("Скоро: оплата через Элсом, Мбанк или Оптима. Деньги хранятся у платформы, пока вы не получите товар.");
+});
+
+render();
+</script>
+</body>
+</html>
