@@ -7,7 +7,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="icon-32-1.png">
 <link rel="apple-touch-icon" href="icon-180-1.png">
-<meta name="theme-color" content="#142B4A">
+<meta name="theme-color" content="#FF6B1A">
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:sans-serif;background:#f4f5f7;color:#142B4A;padding-bottom:80px}
@@ -61,6 +61,18 @@ nav{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:re
 nav button{background:none;border:none;padding:6px 0;font-size:11px;color:#6b7785}
 nav button span{display:block;font-size:22px}
 nav button.on{color:#FF6B1A;font-weight:700}
+.auth{padding:28px 18px 40px;text-align:center;max-width:420px;margin:0 auto}
+.auth .lg{width:64px;height:64px;border-radius:16px}
+.auth .tag{color:#6b7785;font-size:14px;margin:6px 0 0}
+.auth h1{font-size:22px;margin:18px 0 14px}
+.auth p{color:#6b7785;margin:0 0 14px}
+.abtn{display:block;width:100%;padding:14px;border:1.5px solid #dde1e7;border-radius:14px;background:#fff;font-size:16px;font-weight:600;margin-bottom:10px;color:#142B4A}
+.code{width:100%;text-align:center;font-size:32px;letter-spacing:14px;padding:14px;border:2px solid #142B4A;border-radius:14px;margin-bottom:6px}
+.link{background:none;border:none;color:#142B4A;text-decoration:underline;margin-top:12px;font-size:14px}
+.stp{display:flex;justify-content:space-between;margin-top:28px;font-size:12px;color:#9aa4af}
+.stp span.on{color:#FF6B1A;font-weight:700}
+.stp span.dn{color:#142B4A}
+.demo{background:#fff4ec;border-radius:10px;padding:8px 10px;font-size:12px;color:#8a4a1c;margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -100,6 +112,8 @@ try{
   var sv=JSON.parse(localStorage.getItem("ishenem")||"null");
   if(sv){mine=sv.mine||[];favs=sv.favs||[];chats=sv.chats||{};me=sv.me||me;}
 }catch(e){}
+if(!me.logged&&!me.guest)tab="auth";
+var authStep=1,authMethod="",authContact="",timer=null,sec=0;
 function save(){try{localStorage.setItem("ishenem",JSON.stringify({mine:mine,favs:favs,chats:chats,me:me}));}catch(e){}}
 function esc(s){
   return String(s).split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split('"').join("&quot;");
@@ -123,6 +137,9 @@ function card(i){
 }
 
 function drawNav(){
+  var nv=document.getElementById("nav");
+  if(tab==="auth"){nv.style.display="none";return;}
+  nv.style.display="grid";
   var t=[["home","🏠","Главная"],["favs","❤️","Избранное"],["post","➕","Подать"],["chats","💬","Чаты"],["cab","👤","Кабинет"]];
   var active=tab;
   if(tab==="detail")active=prev;
@@ -143,6 +160,7 @@ function render(){
   else if(tab==="cab")renderCab();
   else if(tab==="detail")renderDetail();
   else if(tab==="chat")renderChat();
+  else if(tab==="auth")renderAuth();
 }
 
 function renderHome(){
@@ -199,7 +217,9 @@ function renderPost(){
   h+='<button class="btn" data-act="publish">Опубликовать</button></div>';
   app.innerHTML=h;
 }
+function needLogin(m){if(me.logged)return false;alert(m);authStep=1;tab="auth";render();return true;}
 function publish(){
+  if(needLogin("Войдите, чтобы подать объявление"))return;
   var n=val("pn").trim(),p=parseInt(val("pp"),10);
   if(!n){alert("Укажите название");return;}
   if(!p||p<=0){alert("Укажите цену");return;}
@@ -221,6 +241,7 @@ function renderChats(){
   app.innerHTML=h+'</div>';
 }
 function openChat(id){
+  if(needLogin("Войдите, чтобы написать продавцу"))return;
   var i=getItem(id);if(!i)return;
   cid=i.id;
   if(!chats[cid])chats[cid]=[];
@@ -258,6 +279,8 @@ function renderCab(){
   h+='<label>Телефон</label><input id="cp" type="tel" value="'+esc(me.phone)+'" placeholder="+996 ...">';
   h+='<button class="btn" data-act="saveme">Сохранить</button>';
   h+='<div class="stats"><div class="st"><b>'+mine.length+'</b>Мои объявления</div><div class="st"><b>'+favs.length+'</b>Избранное</div><div class="st"><b>'+Object.keys(chats).length+'</b>Чаты</div></div>';
+  if(me.logged)h+='<div class="safe">✅ Вы вошли: '+esc(me.contact||"")+'</div><button class="btn alt" data-act="logout">Выйти</button>';
+  else h+='<button class="btn" data-act="login">Войти или зарегистрироваться</button>';
   h+='<button class="btn alt" data-act="install">📲 Установить приложение</button>';
   h+='<div class="safe">🛡 Подтверждение номера и рейтинг: скоро</div><h3>Мои объявления</h3>';
   if(!mine.length)h+='<div class="city">Вы пока ничего не подавали.</div>';
@@ -266,6 +289,47 @@ function renderCab(){
     h+='<div class="row" data-act="item" data-id="'+i.id+'"><div class="e">'+i.e+'</div><div class="t"><b>'+esc(i.n)+'</b><small>'+fmt(i.p)+'</small></div><button class="btn red" data-act="del" data-id="'+i.id+'">Удалить</button></div>';
   }
   app.innerHTML=h+'</div>';
+}
+
+
+function startTimer(){
+  stopTimer();sec=59;
+  timer=setInterval(function(){
+    sec--;
+    var t=document.getElementById("tm");
+    if(t)t.textContent=sec>0?"Отправить код повторно (0:"+(sec<10?"0":"")+sec+")":"Отправить код повторно";
+    if(sec<=0)stopTimer();
+  },1000);
+}
+function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
+function shield(){
+  return '<svg width="110" height="110" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8L84 20V48C84 70 70 86 50 93C30 86 16 70 16 48V20Z" fill="#FF6B1A"/><path d="M50 8L84 20V48C84 70 70 86 50 93Z" fill="#E85A0C" opacity=".35"/><path d="M34 50L45 61L67 38" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
+}
+function renderAuth(){
+  var h='<div class="auth"><img class="lg" src="icon-192-1.png" alt=""><div class="tag">Покупай и продавай безопасно</div>';
+  if(authStep===1){
+    h+=shield()+'<h1>Добро пожаловать в Ишенем</h1>';
+    h+='<button class="abtn" data-act="a-google">Войти через Google</button>';
+    h+='<button class="abtn" data-act="a-tg">Войти через Telegram</button>';
+    h+='<input id="em" type="email" placeholder="Или введите вашу почту">';
+    h+='<button class="btn" data-act="a-email">Продолжить по почте</button>';
+    h+='<button class="link" data-act="a-guest">Смотреть без входа</button>';
+  } else if(authStep===2){
+    h+='<div style="font-size:70px;margin-top:10px">✉️</div><h1>Введите код подтверждения</h1>';
+    h+='<p>'+(authMethod==="tg"?'Мы отправили код в Telegram от бота Ишенем':'Мы отправили код на '+esc(authContact))+'</p>';
+    h+='<div class="demo">Демо-режим: настоящая отправка кода подключится после Supabase. Сейчас введите любые 4 цифры.</div>';
+    h+='<input id="cd" class="code" type="tel" inputmode="numeric" maxlength="4" placeholder="••••">';
+    h+='<button class="btn" data-act="a-verify">Подтвердить</button>';
+    h+='<button class="link" id="tm" data-act="a-resend">'+(sec>0?'Отправить код повторно (0:'+(sec<10?'0':'')+sec+')':'Отправить код повторно')+'</button><br>';
+    h+='<button class="link" data-act="a-back">← Назад</button>';
+  } else {
+    h+='<div style="font-size:84px;margin-top:10px">🎉</div><h1>Добро пожаловать в Ишенем!</h1>';
+    h+='<p>Ваш аккаунт успешно создан. Теперь вы можете покупать и продавать безопасно.</p>';
+    h+='<button class="btn" data-act="a-start">Начать</button>';
+  }
+  var n=["Регистрация","Подтверждение","Начало"],st="";
+  for(var k=0;k<3;k++){st+='<span class="'+(k+1<authStep?"dn":(k+1===authStep?"on":""))+'">'+(k+1<authStep?"✓ ":"")+n[k]+'</span>';}
+  app.innerHTML=h+'<div class="stp">'+st+'</div></div>';
 }
 
 document.addEventListener("click",function(e){
@@ -287,6 +351,24 @@ document.addEventListener("click",function(e){
       save();renderCab();
     }
   }
+  else if(act==="a-google")alert("Вход через Google подключим после Supabase. Пока используйте Telegram или почту.");
+  else if(act==="a-tg"){authMethod="tg";authContact="Telegram";authStep=2;startTimer();renderAuth();}
+  else if(act==="a-email"){
+    var em=val("em").trim();
+    if(em.indexOf("@")<1||em.indexOf(".")<3){alert("Введите правильную почту, например name@gmail.com");}
+    else{authMethod="email";authContact=em;authStep=2;startTimer();renderAuth();}
+  }
+  else if(act==="a-verify"){
+    var cd=val("cd").trim();
+    if(!/^[0-9]{4}$/.test(cd)){alert("Введите 4 цифры");}
+    else{stopTimer();me.logged=true;me.guest=false;me.method=authMethod;me.contact=authContact;save();authStep=3;renderAuth();}
+  }
+  else if(act==="a-resend"){if(sec<=0){startTimer();alert("Код отправлен повторно (демо)");}}
+  else if(act==="a-back"){stopTimer();authStep=1;renderAuth();}
+  else if(act==="a-start"){authStep=1;go("home");}
+  else if(act==="a-guest"){me.guest=true;save();go("home");}
+  else if(act==="login"){authStep=1;go("auth");}
+  else if(act==="logout"){if(confirm("Выйти из аккаунта?")){me.logged=false;me.guest=false;me.contact="";save();authStep=1;go("auth");}}
   else if(act==="install")installApp();
   else if(act==="buy")alert("Скоро: оплата через Элсом, Мбанк или Оптима. Деньги хранятся у платформы, пока вы не получите товар.");
 });
