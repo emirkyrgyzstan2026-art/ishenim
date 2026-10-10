@@ -61,18 +61,37 @@ nav{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:re
 nav button{background:none;border:none;padding:6px 0;font-size:11px;color:#6b7785}
 nav button span{display:block;font-size:22px}
 nav button.on{color:#FF6B1A;font-weight:700}
-.auth{padding:28px 18px 40px;text-align:center;max-width:420px;margin:0 auto}
-.auth .lg{width:64px;height:64px;border-radius:16px}
-.auth .tag{color:#6b7785;font-size:14px;margin:6px 0 0}
-.auth h1{font-size:22px;margin:18px 0 14px}
-.auth p{color:#6b7785;margin:0 0 14px}
-.abtn{display:block;width:100%;padding:14px;border:1.5px solid #dde1e7;border-radius:14px;background:#fff;font-size:16px;font-weight:600;margin-bottom:10px;color:#142B4A}
-.code{width:100%;text-align:center;font-size:32px;letter-spacing:14px;padding:14px;border:2px solid #142B4A;border-radius:14px;margin-bottom:6px}
-.link{background:none;border:none;color:#142B4A;text-decoration:underline;margin-top:12px;font-size:14px}
-.stp{display:flex;justify-content:space-between;margin-top:28px;font-size:12px;color:#9aa4af}
-.stp span.on{color:#FF6B1A;font-weight:700}
-.stp span.dn{color:#142B4A}
-.demo{background:#fff4ec;border-radius:10px;padding:8px 10px;font-size:12px;color:#8a4a1c;margin-bottom:12px}
+.auth{position:fixed;left:0;right:0;top:0;bottom:0;background:#fff;overflow-y:auto;z-index:50;padding:0 20px 30px;text-align:center}
+.auth .in{max-width:400px;margin:0 auto;padding-top:22px}
+.auth img{display:block;margin:0 auto;mix-blend-mode:multiply}
+.auth .lgw{width:190px}
+.auth .ill{width:150px;margin-top:14px}
+.auth h1{font-size:21px;margin:12px 0 10px;line-height:1.25;color:#142B4A}
+.auth p{margin:0 0 16px;color:#3d4f66;line-height:1.4;font-size:15px}
+.sb{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border:1.5px solid #dde1e7;border-radius:999px;background:#fff;font-size:16px;font-weight:500;margin-bottom:10px;color:#142B4A}
+.sb svg{flex:none}
+.pl{text-align:left;font-size:13px;color:#3d4f66;margin:12px 0 4px}
+.ph{display:flex;border:1.5px solid #e6b98f;border-radius:14px;overflow:hidden;margin-bottom:14px;background:#fff}
+.ph b{background:#e9ecf1;padding:14px 16px;font-size:17px;font-weight:500;color:#142B4A}
+.ph input{border:none;margin:0;border-radius:0;font-size:17px;padding:14px;color:#c4601a;letter-spacing:.5px;min-width:0}
+.ph input:focus{outline:none}
+.pill{display:block;width:100%;padding:15px;border:none;border-radius:999px;background:#FF6B1A;color:#fff;font-size:17px;font-weight:600;box-shadow:0 6px 18px rgba(255,107,26,.3)}
+.pill.blue{background:#2A5CA0;box-shadow:0 6px 18px rgba(42,92,160,.3)}
+.boxes{display:flex;gap:10px;justify-content:center;margin:6px 0 16px}
+.cb{width:62px;height:62px;border-radius:16px;border:2px solid transparent;background:#142B4A;color:#fff;text-align:center;font-size:28px;font-weight:600;padding:0;margin:0}
+.cb:focus{outline:none;border-color:#3b8cff;box-shadow:0 0 12px rgba(59,140,255,.6)}
+.lk{background:none;border:none;color:#142B4A;text-decoration:underline;margin-top:14px;font-size:14px}
+.sp{margin-top:26px}
+.dots{display:flex;align-items:center;justify-content:center}
+.d{width:16px;height:16px;border-radius:50%;background:#d3d8e0;display:block;flex:none;color:#fff;font-size:10px;line-height:16px;font-style:normal}
+.d.dn{background:#142B4A}
+.d.on{background:#fff;border:4px solid #FF6B1A;width:18px;height:18px}
+.ln{height:2px;background:#d3d8e0;flex:1;max-width:90px;display:block}
+.ln.dn{background:#142B4A}
+.lbs{display:flex;justify-content:space-between;font-size:12px;color:#9aa4af;margin-top:8px}
+.lbs span.on{color:#142B4A;font-weight:600}
+.lbs span.dn{color:#142B4A}
+.dm{font-size:12px;color:#8a4a1c;background:#fff4ec;border-radius:10px;padding:8px 10px;margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -113,7 +132,7 @@ try{
   if(sv){mine=sv.mine||[];favs=sv.favs||[];chats=sv.chats||{};me=sv.me||me;}
 }catch(e){}
 if(!me.logged&&!me.guest)tab="auth";
-var authStep=1,authMethod="",authContact="",timer=null,sec=0;
+var authStep=1,authMethod="",authContact="",authPhone="",authDigits="",timer=null,sec=0;
 function save(){try{localStorage.setItem("ishenem",JSON.stringify({mine:mine,favs:favs,chats:chats,me:me}));}catch(e){}}
 function esc(s){
   return String(s).split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split('"').join("&quot;");
@@ -302,34 +321,43 @@ function startTimer(){
   },1000);
 }
 function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
-function shield(){
-  return '<svg width="110" height="110" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8L84 20V48C84 70 70 86 50 93C30 86 16 70 16 48V20Z" fill="#FF6B1A"/><path d="M50 8L84 20V48C84 70 70 86 50 93Z" fill="#E85A0C" opacity=".35"/><path d="M34 50L45 61L67 38" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
+function stepper(){
+  var lb=["Регистрация","Подтверждение","Начало"],d="",l="";
+  for(var k=1;k<=3;k++){
+    var st=k<authStep?"dn":(k===authStep?"on":"");
+    d+='<i class="d '+st+'">'+(k<authStep?"✓":"")+'</i>';
+    if(k<3)d+='<b class="ln '+(k<authStep?"dn":"")+'"></b>';
+    l+='<span class="'+st+'">'+lb[k-1]+'</span>';
+  }
+  return '<div class="sp"><div class="dots">'+d+'</div><div class="lbs">'+l+'</div></div>';
 }
 function renderAuth(){
-  var h='<div class="auth"><img class="lg" src="icon-192-1.png" alt=""><div class="tag">Покупай и продавай безопасно</div>';
+  var G='<svg width="22" height="22" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 0 1 0-9.4l-7.9-6.1a24 24 0 0 0 0 21.6l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
+  var T='<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#2AABEE"/><path fill="#fff" d="M5.4 11.9l11.2-4.3c.5-.2 1 .1.8.9l-1.9 9c-.1.6-.5.8-1 .5l-2.9-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-3 5.4-4.9c.2-.2-.1-.3-.4-.1l-6.7 4.2-2.9-.9c-.6-.2-.6-.6.2-.9z"/></svg>';
+  var h='<div class="auth"><div class="in"><img class="lgw" src="auth-logo.png" alt="Ишенем" onerror="this.style.display=\'none\'">';
   if(authStep===1){
-    h+=shield()+'<h1>Добро пожаловать в Ишенем</h1>';
-    h+='<button class="abtn" data-act="a-google">Войти через Google</button>';
-    h+='<button class="abtn" data-act="a-tg">Войти через Telegram</button>';
-    h+='<input id="em" type="email" placeholder="Или введите вашу почту">';
-    h+='<button class="btn" data-act="a-email">Продолжить по почте</button>';
-    h+='<button class="link" data-act="a-guest">Смотреть без входа</button>';
+    h+='<img class="ill" src="auth-shield.png" alt="" onerror="this.style.display=\'none\'"><h1>Добро пожаловать в Ишенем</h1>';
+    h+='<button class="sb" data-act="a-google">'+G+'Войти через Google</button>';
+    h+='<button class="sb" data-act="a-tg">'+T+'Войти через Telegram</button>';
+    h+='<div class="pl">Номер телефона</div><div class="ph"><b>+996</b><input id="ph" type="tel" inputmode="numeric" placeholder="700 123 456" value="'+esc(authPhone)+'"></div>';
+    h+='<button class="pill" data-act="a-phone">Продолжить</button>';
+    h+='<button class="lk" data-act="a-guest">Смотреть без входа</button>';
   } else if(authStep===2){
-    h+='<div style="font-size:70px;margin-top:10px">✉️</div><h1>Введите код подтверждения</h1>';
-    h+='<p>'+(authMethod==="tg"?'Мы отправили код в Telegram от бота Ишенем':'Мы отправили код на '+esc(authContact))+'</p>';
-    h+='<div class="demo">Демо-режим: настоящая отправка кода подключится после Supabase. Сейчас введите любые 4 цифры.</div>';
-    h+='<input id="cd" class="code" type="tel" inputmode="numeric" maxlength="4" placeholder="••••">';
-    h+='<button class="btn" data-act="a-verify">Подтвердить</button>';
-    h+='<button class="link" id="tm" data-act="a-resend">'+(sec>0?'Отправить код повторно (0:'+(sec<10?'0':'')+sec+')':'Отправить код повторно')+'</button><br>';
-    h+='<button class="link" data-act="a-back">← Назад</button>';
+    var last=authDigits.slice(-4);
+    h+='<img class="ill" src="auth-sms.png" alt="" onerror="this.style.display=\'none\'"><h1>Введите код подтверждения</h1>';
+    h+='<p>'+(authMethod==="tg"?'Мы отправили 4-значный код в Telegram от бота Ишенем':'Мы отправили 4-значный код на ваш номер +996 (***) *** '+esc(last))+'</p>';
+    h+='<div class="dm">Демо-режим: настоящая отправка кода подключится позже. Сейчас введите любые 4 цифры.</div>';
+    h+='<div class="boxes"><input class="cb" id="c0" type="tel" inputmode="numeric" maxlength="1"><input class="cb" id="c1" type="tel" inputmode="numeric" maxlength="1"><input class="cb" id="c2" type="tel" inputmode="numeric" maxlength="1"><input class="cb" id="c3" type="tel" inputmode="numeric" maxlength="1"></div>';
+    h+='<button class="pill blue" data-act="a-verify">🎉 Подтвердить 🎉</button>';
+    h+='<button class="lk" id="tm" data-act="a-resend">'+(sec>0?'Отправить код повторно (0:'+(sec<10?'0':'')+sec+')':'Отправить код повторно')+'</button><br>';
+    h+='<button class="lk" data-act="a-back">← Назад</button>';
   } else {
-    h+='<div style="font-size:84px;margin-top:10px">🎉</div><h1>Добро пожаловать в Ишенем!</h1>';
+    h+='<img class="ill" style="width:210px" src="auth-gift.png" alt="" onerror="this.style.display=\'none\'"><h1>Добро пожаловать<br>в Ишенем!</h1>';
     h+='<p>Ваш аккаунт успешно создан. Теперь вы можете покупать и продавать безопасно.</p>';
-    h+='<button class="btn" data-act="a-start">Начать</button>';
+    h+='<button class="pill" data-act="a-start">Начать</button>';
   }
-  var n=["Регистрация","Подтверждение","Начало"],st="";
-  for(var k=0;k<3;k++){st+='<span class="'+(k+1<authStep?"dn":(k+1===authStep?"on":""))+'">'+(k+1<authStep?"✓ ":"")+n[k]+'</span>';}
-  app.innerHTML=h+'<div class="stp">'+st+'</div></div>';
+  app.innerHTML=h+stepper()+'</div></div>';
+  if(authStep===2){setTimeout(function(){var c=document.getElementById("c0");if(c&&c.focus)c.focus();},50);}
 }
 
 document.addEventListener("click",function(e){
@@ -351,17 +379,17 @@ document.addEventListener("click",function(e){
       save();renderCab();
     }
   }
-  else if(act==="a-google")alert("Вход через Google подключим после Supabase. Пока используйте Telegram или почту.");
+  else if(act==="a-google")alert("Вход через Google подключим после Supabase. Пока используйте номер телефона или Telegram.");
   else if(act==="a-tg"){authMethod="tg";authContact="Telegram";authStep=2;startTimer();renderAuth();}
-  else if(act==="a-email"){
-    var em=val("em").trim();
-    if(em.indexOf("@")<1||em.indexOf(".")<3){alert("Введите правильную почту, например name@gmail.com");}
-    else{authMethod="email";authContact=em;authStep=2;startTimer();renderAuth();}
+  else if(act==="a-phone"){
+    var dg=val("ph").replace(/[^0-9]/g,"");
+    if(dg.length!==9){alert("Введите номер полностью: 9 цифр после +996");}
+    else{authMethod="phone";authDigits=dg;authPhone=val("ph");authContact="+996 "+val("ph");authStep=2;startTimer();renderAuth();}
   }
   else if(act==="a-verify"){
-    var cd=val("cd").trim();
+    var cd=val("c0")+val("c1")+val("c2")+val("c3");
     if(!/^[0-9]{4}$/.test(cd)){alert("Введите 4 цифры");}
-    else{stopTimer();me.logged=true;me.guest=false;me.method=authMethod;me.contact=authContact;save();authStep=3;renderAuth();}
+    else{stopTimer();me.logged=true;me.guest=false;me.method=authMethod;me.contact=authContact;if(authMethod==="phone")me.phone=authDigits;save();authStep=3;renderAuth();}
   }
   else if(act==="a-resend"){if(sec<=0){startTimer();alert("Код отправлен повторно (демо)");}}
   else if(act==="a-back"){stopTimer();authStep=1;renderAuth();}
@@ -371,6 +399,28 @@ document.addEventListener("click",function(e){
   else if(act==="logout"){if(confirm("Выйти из аккаунта?")){me.logged=false;me.guest=false;me.contact="";save();authStep=1;go("auth");}}
   else if(act==="install")installApp();
   else if(act==="buy")alert("Скоро: оплата через Элсом, Мбанк или Оптима. Деньги хранятся у платформы, пока вы не получите товар.");
+});
+
+document.addEventListener("input",function(e){
+  var t=e.target;
+  if(t.id==="ph"){
+    var d=t.value.replace(/[^0-9]/g,"");
+    if(d.indexOf("996")===0&&d.length>9)d=d.slice(3);
+    if(d.charAt(0)==="0"&&d.length>9)d=d.slice(1);
+    d=d.slice(0,9);
+    var f=d.slice(0,3);if(d.length>3)f+=" "+d.slice(3,6);if(d.length>6)f+=" "+d.slice(6,9);
+    t.value=f;authPhone=f;
+  } else if(t.classList&&t.classList.contains("cb")){
+    var v=t.value.replace(/[^0-9]/g,"");
+    t.value=v.slice(-1);
+    if(t.value){var n=document.getElementById("c"+(Number(t.id.charAt(1))+1));if(n&&n.focus)n.focus();}
+  }
+});
+document.addEventListener("keydown",function(e){
+  var t=e.target;
+  if(t.classList&&t.classList.contains("cb")&&e.key==="Backspace"&&!t.value){
+    var p=document.getElementById("c"+(Number(t.id.charAt(1))-1));if(p&&p.focus)p.focus();
+  }
 });
 
 render();
